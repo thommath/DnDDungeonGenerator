@@ -10,16 +10,16 @@ public class main {
 
 class Map{
 	int start = 0;
-	Room[] rom = new Room[3];
+	Rom[] rom = new Rom[3];
 	Corridor[] cor = new Corridor[2];
 	String[] type = {"Stairs", "Ladder", "Corridor"};
 	
 	Map(){
-		rom[0] = new Room(start);
+		rom[0] = new Rom(this, start);
 		cor[0] = new Corridor(this, 0);
-		rom[1] = new Room(start);
+		rom[1] = new Rom(this, start);
 		cor[1] = new Corridor(this, 1);
-		rom[2] = new Room(start);
+		rom[2] = new Rom(this, start);
 		rom[2].print();
 	}
 }
@@ -70,7 +70,7 @@ class Corridor{
 			map.rom[nr].print();
 			int start = (int)(Math.random()*(map.rom[nr].width-1))+map.start;
 			if(random < 0.8){
-				for(int m = 0; m < (int)Math.random()*5+1; m++){
+				for(int m = 0; m < (int)(Math.random()*5)+1; m++){
 					for(int n = 0; n < start; n++){
 						System.out.print("- ");
 					}
@@ -83,8 +83,8 @@ class Corridor{
 					
 				}
 			}else{
-				for(int m = 0; m < (int)Math.random()*5+1; m++){
-					for(int n = 0; n < start; n++){
+				for(int m = 0; m < (int)(Math.random()*5)+1; m++){
+					for(int n = 0; n < start-1; n++){
 						System.out.print("- ");
 					}
 					System.out.print("0 ");
@@ -101,21 +101,22 @@ class Corridor{
 	}
 }
 
-class Room{
+class Rom{
 	int height, width;
 	int start;
 	Tile[][] map;
 	String[] type = {"Floor", "Trip Wire", "Pit fall", "Snare", "Chair", "Table", "Lever", "Ladder", "Stairs"};
+	Map ma;
 	
-	Room(int start){
+	Rom(Map ma, int start){
+		this.ma = ma;
 		if(start > width){
-		this.start = (int)(Math.random()*start);
+			this.start = (int)(Math.random()*start);
 		}else{
-			this.start = start-(int)(Math.random()*width);
-			
+			this.start = start-(int)(Math.random()*(width-1));
 		}
-		height = (int) (Math.random()*6)+2;
-		width = (int) (Math.random()*6)+2;
+		height = (int) (Math.random()*6)+3;
+		width = (int) (Math.random()*5)+3;
 		map = new Tile[height][width];
 		
 		for(int n = 0; n < height; n++){
@@ -127,6 +128,7 @@ class Room{
 				}
 			}
 		}
+		ma.start = start;
 	}
 	
 	public void print(){
