@@ -34,35 +34,13 @@ class Corridor{
 			int y = (int) (Math.random()*map.rom[nr].height);
 			int x = (int)(Math.random()*map.rom[nr].width);
 			map.rom[nr].map[y][x].type = 8;
-			if(random < 0.1){
+			if(random < 0.15){
 				
-			}else if(random < 0.2){
-				if(x+1 < map.rom[nr].width){
-					map.rom[nr].map[y][x+1].type = 8;
-				}else{
-					map.rom[nr].map[y][x-1].type = 8;
-				}
 			}else{
-				if(y+1 < map.rom[nr].height){
-					map.rom[nr].map[y+1][x].type = 8;
-				}else{
-					map.rom[nr].map[y-1][x].type = 8;
-				}
-				
 				if(x+1 < map.rom[nr].width){
 					map.rom[nr].map[y][x+1].type = 8;
 				}else{
 					map.rom[nr].map[y][x-1].type = 8;
-				}
-				
-				if(x+1 < map.rom[nr].width && y+1 < map.rom[nr].height){
-					map.rom[nr].map[y+1][x+1].type = 8;
-				}else if(x+1 > map.rom[nr].width && y+1 > map.rom[nr].height){
-					map.rom[nr].map[y-1][x-1].type = 8;
-				}else if(x+1 > map.rom[nr].width && y+1 < map.rom[nr].height){
-					map.rom[nr].map[y+1][x-1].type = 8;
-				}else if(x+1 < map.rom[nr].width && y+1 > map.rom[nr].height){
-					map.rom[nr].map[y-1][x+1].type = 8;
 				}
 			}
 			map.rom[nr].print();
