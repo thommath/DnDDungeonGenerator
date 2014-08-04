@@ -5,17 +5,21 @@ public class main {
 	}
 }
 
+//Map -> rom & cor
+//rom -> Tiles
+
 class Map{
+	int start = 0;
 	Room[] rom = new Room[3];
 	Corridor[] cor = new Corridor[2];
 	String[] type = {"Stairs", "Ladder", "Corridor"};
 	
 	Map(){
-		rom[0] = new Room();
+		rom[0] = new Room(start);
 		cor[0] = new Corridor(this, 0);
-		rom[1] = new Room();
+		rom[1] = new Room(start);
 		cor[1] = new Corridor(this, 1);
-		rom[2] = new Room();
+		rom[2] = new Room(start);
 		rom[2].print();
 	}
 }
@@ -24,7 +28,9 @@ class Corridor{
 	Corridor(Map map, int nr){
 
 		double random = Math.random();
+		
 		if(random < 0.3){//trapp
+			map.start = 0;
 			int y = (int) (Math.random()*map.rom[nr].height);
 			int x = (int)(Math.random()*map.rom[nr].width);
 			map.rom[nr].map[y][x].type = 8;
@@ -54,6 +60,7 @@ class Corridor{
 			System.out.println();
 			
 		}else if(random < 0.6){//stige
+			map.start = 0;
 			map.rom[nr].map[(int) (Math.random()*map.rom[nr].height)][(int)(Math.random()*map.rom[nr].width)].type = 7;
 			map.rom[nr].print();
 			System.out.println();
@@ -61,7 +68,7 @@ class Corridor{
 			
 		}else{//Korridor
 			map.rom[nr].print();
-			int start = (int)(Math.random()*(map.rom[nr].width-1));
+			int start = (int)(Math.random()*(map.rom[nr].width-1))+map.start;
 			if(random < 0.8){
 				for(int m = 0; m < (int)Math.random()*5+1; m++){
 					for(int n = 0; n < start; n++){
@@ -87,20 +94,21 @@ class Corridor{
 						System.out.print("- ");
 					}
 					System.out.println();
-					
 				}
-				
 			}
+			map.start = start;
 		}
 	}
 }
 
 class Room{
 	int height, width;
+	int start;
 	Tile[][] map;
 	String[] type = {"Floor", "Trip Wire", "Pit fall", "Snare", "Chair", "Table", "Lever", "Ladder", "Stairs"};
 	
-	Room(){
+	Room(int start){
+		this.start = start+(int)(Math.random()*width);
 		height = (int) (Math.random()*6)+2;
 		width = (int) (Math.random()*6)+2;
 		map = new Tile[height][width];
@@ -118,6 +126,9 @@ class Room{
 	
 	public void print(){
 		for(int n = 0; n < height; n++){
+			for(int s = 0; s < start; s++){
+				System.out.print("- ");
+			}
 			for(int m = 0; m < width; m++){
 				System.out.print(map[n][m].type + " ");
 			}
