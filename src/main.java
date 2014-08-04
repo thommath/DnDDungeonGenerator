@@ -108,7 +108,12 @@ class Room{
 	String[] type = {"Floor", "Trip Wire", "Pit fall", "Snare", "Chair", "Table", "Lever", "Ladder", "Stairs"};
 	
 	Room(int start){
-		this.start = start+(int)(Math.random()*width);
+		if(start > width){
+		this.start = (int)(Math.random()*start);
+		}else{
+			this.start = start-(int)(Math.random()*width);
+			
+		}
 		height = (int) (Math.random()*6)+2;
 		width = (int) (Math.random()*6)+2;
 		map = new Tile[height][width];
