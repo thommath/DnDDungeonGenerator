@@ -110,10 +110,10 @@ class Rom{
 	
 	Rom(Map ma, int start){
 		this.ma = ma;
-		if(start > width){
+		if(start < width){
 			this.start = (int)(Math.random()*start);
 		}else{
-			this.start = start-(int)(Math.random()*(width-1));
+			this.start = start-(int)(Math.random()*(width-1))-1;
 		}
 		height = (int) (Math.random()*6)+3;
 		width = (int) (Math.random()*5)+3;
