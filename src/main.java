@@ -33,19 +33,20 @@ class Corridor{
 			type = 1;
 			map.start = 0;
 			int x, y;
-	//		do{
-			y = (int) (Math.random()*map.rom[nr].height);
-			x = (int)(Math.random()*map.rom[nr].width);
-	//		}while(map.rom[nr].map[y][x].type == 9 || map.rom[nr].map[y][x].type == 10);
+			do{
+				y = (int) (Math.random()*map.rom[nr].height);
+				x = (int)(Math.random()*map.rom[nr].width);
+			}while(map.rom[nr].map[y][x].type == 9 || map.rom[nr].map[y][x].type == 10);
 			map.rom[nr].map[y][x].type = 8;
 			if(random < 0.15){
-				
+				type = 1;
 			}else{
 				if(x+1 < map.rom[nr].width){
 					map.rom[nr].map[y][x+1].type = 8;
 				}else{
 					map.rom[nr].map[y][x-1].type = 8;
 				}
+				type = 12;
 			}
 			map.rom[nr].print();
 			System.out.println();
@@ -126,9 +127,19 @@ class Rom{
 		
 		if(nr != 0){
 			if(ma.cor[nr-1].type == 1){
-				map[(int) (Math.random()*(width-1))][(int)(Math.random()*(height-1))].type = 9;
+				map[(int) (Math.random()*(height-1))][(int)(Math.random()*(width-1))].type = 9;
 			}else if(ma.cor[nr-1].type == 2){
-				map[(int) (Math.random()*(width-1))][(int)(Math.random()*(height-1))].type = 10;
+				map[(int) (Math.random()*(height-1))][(int)(Math.random()*(width-1))].type = 10;
+			}else if(ma.cor[nr-1].type == 12){
+				int x = (int) (Math.random()*(width-1));
+				int y = (int)(Math.random()*(height-1));
+				map[y][x].type = 9;
+
+				if(x+1 < width){
+					map[y][x+1].type = 9;
+				}else{
+					map[y][x-1].type = 9;
+				}
 			}
 		}
 	}
