@@ -15,24 +15,28 @@ class Map{
 	String[] type = {"Stairs", "Ladder", "Corridor"};
 	
 	Map(){
-		rom[0] = new Rom(this, start);
+		rom[0] = new Rom(this, start, 0);
 		cor[0] = new Corridor(this, 0);
-		rom[1] = new Rom(this, start);
+		rom[1] = new Rom(this, start, 1);
 		cor[1] = new Corridor(this, 1);
-		rom[2] = new Rom(this, start);
+		rom[2] = new Rom(this, start, 2);
 		rom[2].print();
 	}
 }
 class Corridor{
-	
+	int type = 0;
 	Corridor(Map map, int nr){
 
 		double random = Math.random();
 		
 		if(random < 0.3){//trapp
+			type = 1;
 			map.start = 0;
-			int y = (int) (Math.random()*map.rom[nr].height);
-			int x = (int)(Math.random()*map.rom[nr].width);
+			int x, y;
+	//		do{
+			y = (int) (Math.random()*map.rom[nr].height);
+			x = (int)(Math.random()*map.rom[nr].width);
+	//		}while(map.rom[nr].map[y][x].type == 9 || map.rom[nr].map[y][x].type == 10);
 			map.rom[nr].map[y][x].type = 8;
 			if(random < 0.15){
 				
@@ -48,6 +52,7 @@ class Corridor{
 			System.out.println();
 			
 		}else if(random < 0.6){//stige
+			type = 2;
 			map.start = 0;
 			map.rom[nr].map[(int) (Math.random()*map.rom[nr].height)][(int)(Math.random()*map.rom[nr].width)].type = 7;
 			map.rom[nr].print();
@@ -55,6 +60,7 @@ class Corridor{
 			System.out.println();
 			
 		}else{//Korridor
+			type = 3;
 			map.rom[nr].print();
 			int start = (int)(Math.random()*(map.rom[nr].width-1))+map.start;
 			if(random < 0.8){
@@ -96,7 +102,7 @@ class Rom{
 	String[] type = {"Floor", "Trip Wire", "Pit fall", "Snare", "Chair", "Table", "Lever", "Ladder", "Stairs"};
 	Map ma;
 	
-	Rom(Map ma, int start){
+	Rom(Map ma, int start, int nr){
 		this.ma = ma;
 		if(start < width){
 			this.start = (int)(Math.random()*start);
@@ -117,6 +123,14 @@ class Rom{
 			}
 		}
 		ma.start = start;
+		
+		if(nr != 0){
+			if(ma.cor[nr-1].type == 1){
+				map[(int) (Math.random()*(width-1))][(int)(Math.random()*(height-1))].type = 9;
+			}else if(ma.cor[nr-1].type == 2){
+				map[(int) (Math.random()*(width-1))][(int)(Math.random()*(height-1))].type = 10;
+			}
+		}
 	}
 	
 	public void print(){
